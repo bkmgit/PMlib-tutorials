@@ -1,0 +1,2872 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<meta name="author" content="三上 和徳">
+<title>10分でわかるPMlib 😚</title>
+<style>
+/*	A slide template based on
+	
+	https://www.geeksforgeeks.org/programming-a-slideshow-with-html-and-css/
+	https://stackoverflow.com/questions/13114819/positioning-elements-at-top-right-of-div
+	https://singaporecss.github.io/talk.css/
+	https://ondras.github.io/maslo
+	https://chenhuijing.com/blog/html-slides-without-frameworks/
+*/
+	body {
+		font-family: Helvetica, sans-serif;
+		padding: 5%;
+		text-align: left;
+		font-size: 0.70em;
+	}
+	
+	/* Styling the area of the slides */
+	
+	#content {
+		overflow: hidden;
+		height: 510px;
+		width: 728px;
+		margin: 0 auto;
+	}
+	
+	/* Style each of the sides
+	with a fixed width and height */
+	
+	.sect1 {
+		float: left;
+		height: 510px;
+		width: 728px;
+	}
+
+	.paragraph {
+		text-align: center;
+		font-size: small;
+		position: relative;
+		bottom: 5;
+	}
+
+</style>
+<style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge .cm {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cp {
+  color: #999999;
+  font-weight: bold;
+}
+pre.rouge .c1 {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cs {
+  color: #999999;
+  font-weight: bold;
+  font-style: italic;
+}
+pre.rouge .c, pre.rouge .cd {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .err {
+  color: #a61717;
+  background-color: #e3d2d2;
+}
+pre.rouge .gd {
+  color: #000000;
+  background-color: #ffdddd;
+}
+pre.rouge .ge {
+  color: #000000;
+  font-style: italic;
+}
+pre.rouge .gr {
+  color: #aa0000;
+}
+pre.rouge .gh {
+  color: #999999;
+}
+pre.rouge .gi {
+  color: #000000;
+  background-color: #ddffdd;
+}
+pre.rouge .go {
+  color: #888888;
+}
+pre.rouge .gp {
+  color: #555555;
+}
+pre.rouge .gs {
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #aaaaaa;
+}
+pre.rouge .gt {
+  color: #aa0000;
+}
+pre.rouge .kc {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kd {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kn {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kp {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kr {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kt {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .k, pre.rouge .kv {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .mf {
+  color: #009999;
+}
+pre.rouge .mh {
+  color: #009999;
+}
+pre.rouge .il {
+  color: #009999;
+}
+pre.rouge .mi {
+  color: #009999;
+}
+pre.rouge .mo {
+  color: #009999;
+}
+pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
+  color: #009999;
+}
+pre.rouge .sb {
+  color: #d14;
+}
+pre.rouge .sc {
+  color: #d14;
+}
+pre.rouge .sd {
+  color: #d14;
+}
+pre.rouge .s2 {
+  color: #d14;
+}
+pre.rouge .se {
+  color: #d14;
+}
+pre.rouge .sh {
+  color: #d14;
+}
+pre.rouge .si {
+  color: #d14;
+}
+pre.rouge .sx {
+  color: #d14;
+}
+pre.rouge .sr {
+  color: #009926;
+}
+pre.rouge .s1 {
+  color: #d14;
+}
+pre.rouge .ss {
+  color: #990073;
+}
+pre.rouge .s {
+  color: #d14;
+}
+pre.rouge .na {
+  color: #008080;
+}
+pre.rouge .bp {
+  color: #999999;
+}
+pre.rouge .nb {
+  color: #0086B3;
+}
+pre.rouge .nc {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .no {
+  color: #008080;
+}
+pre.rouge .nd {
+  color: #3c5d5d;
+  font-weight: bold;
+}
+pre.rouge .ni {
+  color: #800080;
+}
+pre.rouge .ne {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nf {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nl {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nn {
+  color: #555555;
+}
+pre.rouge .nt {
+  color: #000080;
+}
+pre.rouge .vc {
+  color: #008080;
+}
+pre.rouge .vg {
+  color: #008080;
+}
+pre.rouge .vi {
+  color: #008080;
+}
+pre.rouge .nv {
+  color: #008080;
+}
+pre.rouge .ow {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .o {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .w {
+  color: #bbbbbb;
+}
+pre.rouge {
+  background-color: #f8f8f8;
+}
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>10分でわかるPMlib 😚</h1>
+<div class="details">
+<span id="author" class="author">三上 和徳</span><br>
+<span id="revdate">2016年10月26日</span>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>理化学研究所 計算科学研究機構
+可視化技術研究チーム</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="1">1. PMlibとは</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>アプリケーションの計算性能をモニターするソフトウエアライブラリ</p>
+</li>
+<li>
+<p>注目する区間の性能統計情報を簡単に測定・レポートする。</p>
+</li>
+<li>
+<p>Cpp言語、Fortran言語に対応 。</p>
+</li>
+<li>
+<p>Linux系OSをもつコンピュータの上で使える。:::</p>
+<div class="ulist">
+<ul>
+<li>
+<p>京コンピュータ・FX100</p>
+</li>
+<li>
+<p>Intel Xeon系サーバ・PC</p>
+</li>
+<li>
+<p>Apple Macbook</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>オープンソース。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>パッケージ公開リポジトリ</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://avr-aics-riken.github.io/PMlib/" class="bare">http://avr-aics-riken.github.io/PMlib/</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>必要な前提ソフトウエア環境</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Linux OS, Cpp, C, Fortranコンパイラ</p>
+</li>
+<li>
+<p>(オプションに応じて)MPIライブラリ、PAPIライブラリ、OTFライブラリ</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#2">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2">2. 計算性能のモニターとは?</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>注目する区間を指定して性能統計情報を蓄積・記録すること</p>
+</li>
+<li>
+<p>測定区間は少数の属性を持つ</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ラベル:任意の名称 ”ここ”とか”そこ”とか</p>
+</li>
+<li>
+<p>測定する計算量の種類: 「演算量」、「通信量」など</p>
+<div class="ulist">
+<ul>
+<li>
+<p>浮動小数点演算量、データ移動量、その他HW固有の統計量がいくつか選べる</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>排他性:「排他的」か「非排他的」</p>
+<div class="ulist">
+<ul>
+<li>
+<p>他の区間とカブっていないかという意味</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>測定する計算量をどう選択・算出するか?</p>
+<div class="ulist">
+<ul>
+<li>
+<p>PMlibがHWPC値を自動測定する方法</p>
+</li>
+<li>
+<p>ユーザが明示的に申告する方法</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#1">←</a><a href="#3">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3">3. PMlibの利用方法</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>PMlibライブラリをインストールする</p>
+</li>
+<li>
+<p>アプリケーション中の測定区間を決める</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ソースプログラム中の注目箇所にPMlib APIを追加</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>アプリケーションをコンパイルしてPMlibとリンクする</p>
+</li>
+<li>
+<p>アプリケーションを実行する</p>
+<div class="ulist">
+<ul>
+<li>
+<p>実行時に性能統計情報がレポートされる</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>性能統計レポートを確認評価する</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a href="#2">←</a><a href="#4">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4">4. PMlib基本APIの一覧</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">関数名(Cpp)</th>
+<th class="tableblock halign-left valign-top">関数名(Fortran)</th>
+<th class="tableblock halign-left valign-top">機能</th>
+<th class="tableblock halign-left valign-top">呼び出し位置と回 数</th>
+<th class="tableblock halign-left valign-top">引数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">initialize()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">f_pm_initialize()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PMlib 全体の初期化</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">冒頭■一回</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(1)測定区間数</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setProperties()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">f_pm_setproperties()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">測定区間のラベル化</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">任意■各区間一回</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">⑴ラベル、（2)測定対象タイプ、（3)排他 指定</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">start()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">f_pm_start()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">測定の開始</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">任意(startとstopで ペア）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(1)ラベル</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stop()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">f_pm_stop()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">測定の停止</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">任意(startとstopで ペア）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(1)ラベル、（2)計算量、（3)計算のタスク 数</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">print()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">f_pm_print()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">測定区間毎の基本 統計結果表示</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">測定終了時■一回</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(1)出カファイルポインタ、（2)ホスト名、 (3)任意のコメント、（4)区間の表示順 序指定</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">printDetail()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">f_pm_printdetail()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MPIランク毎の詳細 性能情報の表示</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">測定終了時■一回</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(1)出カファイルポインタ、（2)記号説明 の表示、（3)区間の表示順序指定</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#3">←</a><a href="#5">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5">5. PMlibを利用するプログラムの構成例(Fortran)</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">元のソース</th>
+<th class="tableblock halign-left valign-top">PMlib組み込み後のソース</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="fortran"><span class="k">program</span><span class="w"> </span><span class="n">main</span><span class="w">
+</span><span class="c1">!  注目箇所</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">mykernel</span><span class="p">()</span><span class="w">
+</span><span class="k">end</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="fortran"><span class="k">program</span><span class="w"> </span><span class="n">main</span><span class="w">
+</span><span class="c1">! 初期設定</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">f_pm_initialize</span><span class="w"> </span><span class="p">(</span><span class="n">nWatch</span><span class="p">)</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">f_pm_setproperties</span><span class="w"> </span><span class="p">(</span><span class="s2">"Koko!"</span><span class="w"> </span><span class="n">icalc</span><span class="p">,</span><span class="w"> </span><span class="n">iexcl</span><span class="p">)</span><span class="w">
+</span><span class="c1">! 測定区間</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">f_pm_start</span><span class="w"> </span><span class="p">(</span><span class="s2">"Koko!"</span><span class="p">)</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">mykernel</span><span class="w"> </span><span class="p">(</span><span class="n">msize</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">f_pm_stop</span><span class="w"> </span><span class="p">(</span><span class="s2">"Koko!"</span><span class="p">,</span><span class="w"> </span><span class="n">fops</span><span class="p">,</span><span class="w"> </span><span class="n">ncall</span><span class="p">)</span><span class="w">
+</span><span class="c1">! レポート出力</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">f_pm_print</span><span class="w"> </span><span class="p">(</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">isort</span><span class="p">)</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">f_pm_printdetail</span><span class="w"> </span><span class="p">(</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">ilegend</span><span class="p">,</span><span class="w"> </span><span class="n">isort</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#4">←</a><a href="#6">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="6">6. PMlibを利用するプログラムの構成例(Cpp)</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">元のソース</th>
+<th class="tableblock halign-left valign-top">PMlib組み込み後のソース</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="cm">/* 注目箇所 */</span>
+<span class="n">mykernel</span><span class="p">();</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cm">/* PMlibヘッダー */</span>
+<span class="cp">#include &lt;PerfMonitor.h&gt;
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">pm_lib</span><span class="p">;</span>
+<span class="n">PerfMonitor</span> <span class="n">PM</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="cm">/* 初期設定 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">initialize</span><span class="p">();</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">setProperties</span><span class="p">(</span><span class="s">"Koko!"</span><span class="p">,</span> <span class="n">PM</span><span class="p">.</span><span class="n">CALC</span><span class="p">);</span>
+<span class="cm">/* 測定区間 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="s">"Koko!"</span><span class="p">);</span>
+<span class="n">mykernel</span><span class="p">();</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">stop</span> <span class="p">(</span><span class="s">"Koko!"</span><span class="p">);</span>
+<span class="cm">/* レポート出力 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">printDetail</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#5">←</a><a href="#7">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="7">7. PMlibの出力情報</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>、基本レポート</p>
+<div class="ulist">
+<ul>
+<li>
+<p>各測定区間のプロセスあたり平均性能統計値</p>
+<div class="ulist">
+<ul>
+<li>
+<p>時間:各区間の平均時間、呼び出し回数、累積経過時間</p>
+</li>
+<li>
+<p>計算量:呼び出し1回あたりの量、合計量、速度</p>
+</li>
+<li>
+<p>区間を登録順または経過時間順にソート出力</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ジョブ全体での総合性能</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>、詳細プロファイル</p>
+<div class="ulist">
+<ul>
+<li>
+<p>各MPIプロセス毎のプロファイルを出力</p>
+</li>
+<li>
+<p>(オプション)各MPIプロセス毎のHWPCイベント統計量</p>
+<div class="ulist">
+<ul>
+<li>
+<p>HWPCイベントグループを環境変数で指定</p>
+</li>
+<li>
+<p>プロセスがOpenMPスレッドを発生した場合、各スレッドの計 算量は元プロセスに合算する。</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>、(オプション)ポスト処理用性能トレースファイル</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a href="#6">←</a><a href="#8">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="8">8. 基本レポート例 (HWPC自動測定モード</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre># PMlib Basic Report -------------------------------------------------------
+Timing Statistics Report from PMlib version 5.0.3
+Linked PMlib supports: MPI, OpenMP, HWPC, OTF
+Host name : vsp01
+Date      : 2016/06/19 : 15:26:50
+Mrs. Kobe
+Parallel Mode:  Hybrid (4 processes x 4 threads)
+The environment variable HWPC_CHOOSER=FLOPS is provided.
+
+Total execution time            = 9.848690e-01 [sec]
+Total time of measured sections = 9.816217e-01 [sec]
+
+Exclusive sections statistics per process and total job.
+Inclusive sections are marked with (*)
+
+Section           |  call    |     accumulated time[sec]              | [hardware counter byte counts]
+Label             |          |   avr     avr[%]    sdv   avr/call     |      avr       sdv   speed
+------------------+----------+----------------------------------------+----------------------------
+First section     :        1   1.039e-01 10.59 1.32e-03 1.039e-01        4.807e+09 1.89e+06 46.26 Gflops
+Second section(*) :        1   8.412e-01 85.70 4.72e-03 8.412e-01        5.226e+09 1.79e+06 6.21 Gflops(*)
+Subsection X      :        3   3.106e-01 31.64 9.48e-04 1.035e-01        1.614e+10 3.24e+06 51.97 Gflops
+Subsection Y      :        3   3.127e-01 31.85 4.06e-03 1.042e-01        1.568e+10 2.73e+06 50.14 Gflops
+------------------+----------+----------------------------------------+----------------------------
+Sections per process           7.272e-01     -Exclusive CALC sections- 3.663e+10            50.37 Gflops
+------------------+----------+----------------------------------------+----------------------------
+Sections total job             7.272e-01      -Exclusive CALC sections- 1.465e+11           201.47 Gflops</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#7">←</a><a href="#9">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="9">9. 基本レポート例 (ユーザ申告モード)</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre># PMlib Basic Report -------------------------------------------------------
+
+    Timing Statistics Report from PMlib version 5.0.3
+    Linked PMlib supports: MPI, OpenMP, HWPC, OTF
+    Host name : vsp01
+    Date      : 2016/06/19 : 15:28:19
+    Mrs. Kobe
+    Parallel Mode:    Hybrid (4 processes x 4 threads)
+    The environment variable HWPC_CHOOSER is not provided. No HWPC report.
+
+    Total execution time            = 9.795189e-01 [sec]
+    Total time of measured sections = 9.816882e-01 [sec]
+
+    Exclusive sections statistics per process and total job.
+    Inclusive sections are marked with (*)
+
+    Section           |   call   |      accumulated time[sec]             | [user defined counter values ]
+    Label             |          |    avr   avr[%]   sdv     avr/call     |       avr     sdv   speed
+    ------------------+----------+----------------------------------------+----------------------------
+    First section     :        1   1.043e-01 10.62 1.47e-03 1.043e-01        4.000e+09 0.00e+00 38.35 Gflops
+    Second section(*) :        1   8.420e-01 85.77 6.86e-03 8.420e-01        1.960e+10 0.00e+00 23.28 Gflops(*)
+    Subsection X      :        3   3.120e-01 31.78 3.28e-03 1.040e-01        4.800e+10 0.00e+00 153.84 GB/sec
+    Subsection Y      :        3   3.118e-01 31.76 2.72e-03 1.039e-01        1.440e+10 0.00e+00 46.18 Gflops
+    ------------------+----------+----------------------------------------+----------------------------
+    Sections per process           4.161e-01     -Exclusive CALC sections- 1.840e+10            44.22 Gflops
+    Sections per process           3.120e-01     -Exclusive COMM sections- 4.800e+10           153.84 GB/sec
+    ------------------+----------+----------------------------------------+----------------------------
+    Sections total job             4.161e-01     -Exclusive CALC sections- 7.360e+10           176.87 Gflops
+    Sections total job             3.120e-01     -Exclusive COMM sections- 1.920e+11           615.36 GB/sec</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#8">←</a><a href="#10">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="10">10. ?</h2>
+<div class="sectionbody">
+<div class="paragraph text-center">
+<p>以降のスライドはコンピュータシステム毎に</p>
+</div>
+<div class="paragraph text-center">
+<p>別れた内容になっています。</p>
+</div>
+<div class="paragraph text-center">
+<p>Intel環境編</p>
+</div>
+<div class="paragraph text-center">
+<p>京・FX100編</p>
+</div>
+<div class="paragraph text-center">
+<p>Mac・OSX編</p>
+</div>
+<div class="paragraph text-center">
+<p>適切なものを選んでお読みください</p>
+</div>
+<div class="paragraph">
+<p><a href="#9">←</a><a href="#11">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="11">11. Intel</h2>
+<div class="sectionbody">
+<div class="paragraph text-center">
+<p>10分+でできるPMlibのインストールと利用😚</p>
+</div>
+<div class="paragraph text-center">
+<p>Intel環境編</p>
+</div>
+<div class="paragraph text-center">
+<p>(Intel サーバ w/ Intelコンパイラ+Intel MPI)</p>
+</div>
+<div class="paragraph">
+<p><a href="#10">←</a><a href="#12">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="12">12. PMlibのインストールと利用実行</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>PMlibのインストール</p>
+<div class="ulist">
+<ul>
+<li>
+<p>PMlibパッケージの入手</p>
+</li>
+<li>
+<p>PMlibのインストール</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>PMlibの利用実行</p>
+<div class="ulist">
+<ul>
+<li>
+<p>例題プログラムの作成(Cpp言語で作成)</p>
+</li>
+<li>
+<p>例題プログラムへのPMlibの追加(ソースプログラムの編集)</p>
+</li>
+<li>
+<p>例題プログラムをコンパイルしてPMlibをリンクする</p>
+</li>
+<li>
+<p>例題プログラムを実行して、PMlibのレポートを確認する</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>(注)ここではPMlibのインストールと例題プログラムの利用実行が同じ種類のIntel Xeon CPU上で行われることを想定している。</code></p>
+</li>
+<li>
+<p><code>(注)ここではIntelコンパイラ+Intel MPIのソフトウエア環境を想定している。GNUコンパイラ を用いた場合、あるいはOpenMPIを用いた場合などのインストール例についてはパッケージに含まれるINSTALLファイルを参照</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#11">←</a><a href="#13">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="13">13. PMlibパッケージの入手(共通)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>パッケージ公開リポジトリ</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://avr-aics-riken.github.io/PMlib/" class="bare">http://avr-aics-riken.github.io/PMlib/</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="download.png" alt="ソフトウェアをダウンロードするためのGitHubページを示す画像">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ダウンロードしたファイル名は avr-aics-riken-PMlib-*.tar.gz</p>
+<div class="ulist">
+<ul>
+<li>
+<p>(*の部分はバージョンにより変わる)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ダウンロードしたファイルをインストール先のコンピュータに転送する。手持ちのPCへインストールする場合は、もちろん転送不要。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>以降の例では ${HOME}/tmp/ 下に転送したと仮定</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#12">←</a><a href="#14">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="14">14. PMlibパッケージの展開(共通)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>インストール先のコンピュータ上で、転送したパッケージを展開する</p>
+</li>
+<li>
+<p>展開したディレクトリにシンボリックリンクと、パスの環境変数を設定する。</p>
+</li>
+<li>
+<p>以下の例ではログイン後ホームに pmlib ディレクトリを作って、その下に転送したパッケージのファイルを展開する。</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span>mkdir pmlib
+<span class="gp">$ </span><span class="nb">cd </span>pmlib
+<span class="gp">$ </span>tar –zxf <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/tmp/avr-aics-riken-PMlib-<span class="k">*</span>.tar.gz
+<span class="gp">$ </span>ls –go
+drwxr-xr-x 10 4096 2016-06-21 15:13 avr-aics-riken-PMlib-7d4884d
+
+<span class="gp">$ </span>ln –s avr-aics-riken-PMlib-<span class="k">*</span> PMlib
+<span class="gp">$ </span>ls –go
+lrwxrwxrwx 1 12 2016-06-21 15:15 PMlib -&gt; avr-aics-riken-PMlib-7d4884d
+
+<span class="gp">$ </span><span class="nv">PMLIB_DIR</span><span class="o">=</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span>/PMlib           <span class="c"># PMlibパッケージを展開したディレクトリ</span>
+<span class="gp">$ </span><span class="nv">INSTALL_DIR</span><span class="o">=</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span>/install_dir   <span class="c"># PMlibのインストール先ディレクトリ</span>
+<span class="gp">$ </span><span class="nb">export </span>PMLIB_DIR INSTALL_DIR</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#13">←</a><a href="#15">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="15">15. PMlibのインストール Intel環境</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Intel環境用のインストールスクリプト例は以下に提供されている</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>$ SCRIPTS=${PMLIB_DIR}/doc/scripts/Intel/</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>アプリケーションの種類により、PMlib「1プロセス版」か「MPI版」かのどちらかを使用するので、両方ともインストールする。</p>
+</li>
+<li>
+<p>Intelコンパイラ、Intel MPI、PAPIライブラリはシステムによってインストールされているパスが異なる。PMlibインストール用スクリプトで設定されているパスが正しいか確認して、必要であれば修正する。</p>
+</li>
+<li>
+<p>「1プロセス版」のスクリプト ${SCRIPTS}/x.make-pmlib-intel-serial.sh</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>N行目INTEL_DIR=/usr/local/intel/composer_xe_2013</code></p>
+</li>
+<li>
+<p><code>N行目PAPI_DIR=/usr/local/papi/papi-5.3.2/intel</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>「Intel MPI版」のスクリプト ${SCRIPTS}/x.make-pmlib-intel-impi.sh</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>N行目 INTEL_DIR=/usr/local/intel/composer_xe_2013</code></p>
+</li>
+<li>
+<p><code>N行目 MPI_DIR=/usr/local/intel/impi/4.1.0.024</code></p>
+</li>
+<li>
+<p><code>N行目 PAPI_DIR=/usr/local/papi/papi-5.3.2/intel</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#14">←</a><a href="#16">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="16">16. PMlibのインストール Intel環境</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>インストールスクリプトを2つ順に実行</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ ${SCRIPTS}/x.make-intel-serial.sh  # 「1プロセス版」PMlibのインストール
+$ ${SCRIPTS}/x.make-intel-impi.sh    # 「Intel MPI版」PMlibのインストール</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>以下のファイルがインストールされた事を確認する</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ ls –go ${INSTALL_DIR}
+drwxr-xr-x 3 102 6 19 17:51 bin
+drwxr-xr-x 6 204 6 19 17:51 doc
+drwxr-xr-x 7 238 6 19 17:51 include
+drwxr-xr-x 4 136 6 19 17:51 lib
+drwxr-xr-x 7 238 6 19 17:51 share
+
+$ ls –go ${INSTALL_DIR}/lib
+-rw-r--r-- 1 145784 5 27 17:15 libPM.a         # 「1プロセス版」PMlibライブラリ
+-rw-r--r-- 1 472104 6 19 17:51 libPMmpi.a      # 「Intel MPI版」PMlibライブラリ</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>以上でPMlibインストール終了!</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#15">←</a><a href="#17">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="17">17. 例題プログラムの作成(Cpp版)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>適当なディレクトリ ${MY_SRC} の下にプログラム mxm.cpp を作成する</p>
+</li>
+<li>
+<p>N次の正方行列の積を計算するプログラム</p>
+<div class="ulist">
+<ul>
+<li>
+<p>主プログラム:関数1と関数2を呼び出して行列積の計算を行う。</p>
+</li>
+<li>
+<p>関数1:正方行列[A]、[B]の各要素を値1.0で初期化する</p>
+</li>
+<li>
+<p>関数2:行列積[C]=[A][B]を計算する</p>
+</li>
+<li>
+<p>シリアルプログラム(MPI不要、OpenMP不要)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">---
+<span class="gp">$ </span><span class="nv">MY_SRC</span><span class="o">=</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/pmlib/mysrc
+<span class="gp">$ </span>mkdir -p <span class="k">${</span><span class="nv">MY_SRC</span><span class="k">}</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="k">${</span><span class="nv">MY_SRC</span><span class="k">}</span>
+---</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>自分でソースを書いてももちろん良い vi mxm.cpp</p>
+</li>
+<li>
+<p>手早く進みたい場合はパッケージのプログラム例をコピーしても良い</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>$ vi mxm.cpp</code>
+あるいは
+<code>$ cp –p ${PMLIB_DIR}/doc/src_tutorial/mxm.cpp ./</code></p>
+</div>
+<div class="paragraph">
+<p><a href="#16">←</a><a href="#18">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="18">18. 行列積ソースプログラム例 Cpp</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include "matrix.h"
+</span><span class="kt">void</span> <span class="n">init2d</span><span class="p">();</span>
+<span class="kt">void</span> <span class="n">mxm2d</span><span class="p">();</span>
+<span class="cm">/* 主プログラム部分 */</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="n">init2d</span><span class="p">();</span>
+<span class="n">mxm2d</span><span class="p">();</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">init2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span> <span class="o">=</span> <span class="n">MATSIZE</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">nsize</span><span class="p">;</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">-</span><span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">c2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">mxm2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">c1</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="n">c1</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">){</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">+</span>
+          <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
+      <span class="p">}</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">c2d</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c1</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ヘッダーファイル matrix.h の内容</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#define MATSIZE 1000
+</span><span class="k">struct</span> <span class="n">matrix</span> <span class="p">{</span>
+  <span class="kt">double</span> <span class="n">a2d</span><span class="p">[</span><span class="n">MATSIZE</span><span class="p">][</span><span class="n">MATSIZE</span><span class="p">];</span>
+  <span class="kt">double</span> <span class="n">b2d</span><span class="p">[</span><span class="n">MATSIZE</span><span class="p">][</span><span class="n">MATSIZE</span><span class="p">];</span>
+  <span class="kt">double</span> <span class="n">c2d</span><span class="p">[</span><span class="n">MATSIZE</span><span class="p">][</span><span class="n">MATSIZE</span><span class="p">];</span>
+  <span class="kt">int</span> <span class="n">nsize</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">matrix</span><span class="p">;</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#17">←</a><a href="#19">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="19">19. 例題プログラムへのPMlibの追加</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">*  元の主プログラム部分</th>
+<th class="tableblock halign-left valign-top">* PMlibを追加した主プログラム部分</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cm">/* ヘッダー */</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+
+<span class="cm">/* 初期設定 */</span>
+
+
+<span class="cm">/* 測定区間1 */</span>
+<span class="n">init2d</span><span class="p">();</span>
+
+
+<span class="cm">/* 測定区間2 */</span>
+<span class="n">mxm2d</span><span class="p">();</span>
+
+<span class="cm">/* レポートを出力 */</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cm">/* ヘッダー追加 */</span>
+<span class="cp">#include &lt;PerfMonitor.h&gt;
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">pm_lib</span><span class="p">;</span>
+<span class="n">PerfMonitor</span> <span class="n">PM</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">initialize</span><span class="p">();</span>
+<span class="cm">/* 初期設定 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">setProperties</span><span class="p">(</span><span class="s">"A:init2d"</span><span class="p">,</span><span class="n">PM</span><span class="p">.</span><span class="n">CALC</span><span class="p">);</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">setProperties</span><span class="p">(</span><span class="s">"B:mxm2d"</span><span class="p">,</span><span class="n">PM</span><span class="p">.</span><span class="n">CALC</span><span class="p">);</span>
+<span class="cm">/* 測定区間1 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="s">"A:init2d"</span><span class="p">);</span>
+<span class="n">init2d</span><span class="p">();</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">stop</span><span class="p">(</span><span class="s">"A:init2d"</span><span class="p">);</span>
+<span class="cm">/* 測定区間2 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="s">"B:mxm2d"</span><span class="p">);</span>
+<span class="n">mxm2d</span><span class="p">();</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">stop</span><span class="p">(</span><span class="s">"B:mxm2d"</span><span class="p">);</span>
+<span class="cm">/* レポートを出力 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span><span class="s">""</span><span class="p">);</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">printDetail</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#18">←</a><a href="#20">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="20">20. コンパイル Intel環境</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>例題プログラムをコンパイルしてPMlibをリンクするスクリプト例</p>
+<div class="ulist">
+<ul>
+<li>
+<p>x.compile-cpp-intel-serial.sh</p>
+</li>
+<li>
+<p>コンパイルを開始する前にスクリプトの内容を確認する</p>
+</li>
+<li>
+<p>コンパイルが終了すると実行プログラム a.out が生成される</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span><span class="k">${</span><span class="nv">SCRIPTS</span><span class="k">}</span>/x.compile-cpp-intel-serial.sh
+<span class="gp">$ </span>file ./a.out
+./a.out: ELF 64-bit LSB executable, x86-64, version 1 <span class="o">(</span>GNU/Linux<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for </span>GNU/Linux 2.6.18, not stripped</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#19">←</a><a href="#21">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="21">21. 例題プログラムの実行 Intel環境</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>プログラムの実行方法(ジョブスクリプトによるジョブ投入)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>(注)Intelサーバではプログラムをバッチジョブで実行する事が多く、バッチジョブ管理ソフトの種類・構成には様々なパターンがある。以下はLSFの場合の例であるが、利用するシステムに合わせて実行ジョブスクリプトの指示行部分を適宜修正する。</p>
+</li>
+<li>
+<p>ジョブスクリプト中のプログラムパス(MY_SRC)設定が正しいことを確認。</p>
+</li>
+<li>
+<p>最初はジョブスクリプトをそのまま実行する。(ユーザー申告モード)</p>
+</li>
+<li>
+<p>次に環境変数を指定して実行する。(HWPCによる自動測定モード)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span>cp <span class="k">${</span><span class="nv">SCRIPTS</span><span class="k">}</span>/x.run-intel-serial.sh ./
+<span class="gp">$ </span>vi ./x.run-intel-serial.sh
+<span class="gp">$ </span>bsub &lt; ./x.run-intel-serial.sh</code></pre>
+</div>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>通常実行(ユーザー申告モード)
+<code>./a.out</code></p>
+</li>
+<li>
+<p>HWPCによる自動測定モード
+<code>export HWPC_CHOOSER=FLOPS</code>
+<code>./a.out</code></p>
+</li>
+</ol>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>実行結果標準出力でPMlibの基本レポート・詳細レポートを確認</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#20">←</a><a href="#22">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="22">22. 例題プログラムへのOpenMP指示行の追加</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>ソースプログラムにOpenMP指示行を追加</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">init2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span> <span class="o">=</span> <span class="n">MATSIZE</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="cp">#pragma omp parallel for private(i,j)
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">ipp</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">jpp</span><span class="p">){</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">nsize</span><span class="p">;</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">-</span><span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">c2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">mxm2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">c1</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="cp">#pragma omp parallel for private(i,j,k,c1)
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">ipp</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">jpp</span><span class="p">){</span>
+      <span class="n">c1</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">kpp</span><span class="p">){</span>
+      <span class="n">c1</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">+</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="p">...</span><span class="err">以下略</span><span class="p">...</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#21">←</a><a href="#23">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="23">23. 例題プログラムの再コンパイルと実行 Intel環境</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>ログインノード上で再度コンパイル</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>${SCRIPTS}/x.compile-cpp-intel-serial.sh</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>環境変数を追加・変更して再実行</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ジョブスクリプトで測定条件を変更して出力結果を比較する</p>
+</li>
+<li>
+<p>OMP_NUM_THREADS=1/2/4/8など:OpenMPスレッド数</p>
+</li>
+<li>
+<p>HWPC_CHOOSER=FLOPS/BANDWIDTH/など:HWPC測定のタイプ</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>$ vi x.run-intel-serial.sh</code>
+<code>$ bsub &lt; ./x.run-intel-serial.sh</code></p>
+</div>
+<div class="paragraph">
+<p><a href="#22">←</a><a href="#24">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="24">24. FX100</h2>
+<div class="sectionbody">
+<div class="paragraph text-center">
+<p>10分+でできるPMlibのインストールと利用😚</p>
+</div>
+<div class="paragraph text-center">
+<p>FX100・京コンピュータ編</p>
+</div>
+<div class="paragraph">
+<p><a href="#23">←</a><a href="#25">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="25">25. PMlibのインストールと利用実行</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>PMlibのインストール</p>
+<div class="ulist">
+<ul>
+<li>
+<p>PMlibパッケージの入手</p>
+</li>
+<li>
+<p>PMlibのインストール</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>PMlibの利用実行</p>
+<div class="ulist">
+<ul>
+<li>
+<p>例題プログラムの作成(C++言語で作成)</p>
+</li>
+<li>
+<p>例題プログラムへのPMlibの追加(ソースプログラムの編集)</p>
+</li>
+<li>
+<p>例題プログラムをコンパイルしてPMlibをリンクする</p>
+</li>
+<li>
+<p>例題プログラムを実行して、PMlibのレポートを確認する</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>(注)この説明資料ではPMlibのインストール・例題プログラムのコンパイルはログインノード上で行い、例題プログラムの実行は計算ノード上で行われることを前提としている。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#24">←</a><a href="#26">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="26">26. PMlibパッケージの入手(共通)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>パッケージ公開リポジトリ</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://avr-aics-riken.github.io/PMlib/" class="bare">http://avr-aics-riken.github.io/PMlib/</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="download.png" alt="ソフトウェアをダウンロードするためのGitHubページを示す画像">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ダウンロードしたファイル名は avr-aics-riken-PMlib-*.tar.gz</p>
+<div class="ulist">
+<ul>
+<li>
+<p>(\*の部分はバージョンにより変わる)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ダウンロードしたファイルをインストール先のコンピュータに転送する。手持ちのPCへインストールする場合は、もちろん転送不要。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>以降の例では ${HOME}/tmp/ 下に転送したと仮定</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#25">←</a><a href="#27">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="27">27. PMlibパッケージの展開(共通)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>インストール先のコンピュータ上で、転送したパッケージを展開する</p>
+</li>
+<li>
+<p>展開したディレクトリにシンボリックリンクと、パスの環境変数を設定する。</p>
+</li>
+<li>
+<p>以下の例ではログイン後ホームに pmlib ディレクトリを作って、その下に転送したパッケージのファイルを展開する。</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span>mkdir pmlib
+<span class="gp">$ </span><span class="nb">cd </span>pmlib
+<span class="gp">$ </span>tar –zxf <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/tmp/avr-aics-riken-PMlib-<span class="k">*</span>.tar.gz
+<span class="gp">$ </span>ls –go
+drwxr-xr-x 10 4096 2016-06-21 15:13 avr-aics-riken-PMlib-7d4884d
+<span class="gp">$ </span>ln –s avr-aics-riken-PMlib-<span class="k">*</span> PMlib
+<span class="gp">$ </span>ls –go
+lrwxrwxrwx 1 12 2016-06-21 15:15 PMlib -&gt; avr-aics-riken-PMlib-7d4884d
+<span class="gp">$ </span><span class="nv">PMLIB_DIR</span><span class="o">=</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span>/PMlib          <span class="c"># PMlibパッケージを展開したディレクトリ</span>
+<span class="gp">$ </span><span class="nv">INSTALL_DIR</span><span class="o">=</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span>/install_dir  <span class="c"># PMlibのインストール先ディレクトリ</span>
+<span class="gp">$ </span><span class="nb">export </span>PMLIB_DIR INSTALL_DIR</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#26">←</a><a href="#28">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="28">28. PMlibのインストール FX100・京コンピュータ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>FX100・京コンピュータ用のインストールスクリプトは共通で、以下に例が提供されている</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>$ SCRIPTS=${PMLIB_DIR}/doc/scripts/K/</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>アプリケーションの種類により、PMlib「1プロセス版」か「MPI版」かのどちらかを使用するので、両方ともインストールする。</p>
+</li>
+<li>
+<p>「1プロセス版」PMlibをインストールするスクリプト</p>
+<div class="ulist">
+<ul>
+<li>
+<p>${SCRIPTS}/x.make-pmlib-K-serial.sh</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>「MPI版」PMlibをインストールするスクリプト</p>
+<div class="ulist">
+<ul>
+<li>
+<p>${SCRIPTS}/x.make-pmlib-K-impi.sh</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#27">←</a><a href="#29">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="29">29. PMlibのインストール FX100・京コンピュータ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>ログインノード上でインストールスクリプトを2つ順に実行</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span><span class="k">${</span><span class="nv">SCRIPTS</span><span class="k">}</span>/x.make-pmlib-K-serial.sh   <span class="c"># 「1プロセス版」のインストール</span>
+<span class="gp">$ </span><span class="k">${</span><span class="nv">SCRIPTS</span><span class="k">}</span>/x.make-pmlib-K-mpi.sh      <span class="c"># 「MPI版」のインストール</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>以下のファイルがインストールされた事を確認する</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span>ls –go <span class="k">${</span><span class="nv">INSTALL_DIR</span><span class="k">}</span>
+drwxr-xr-x 3 102 6 19 17:51 bin
+drwxr-xr-x 6 204 6 19 17:51 doc
+drwxr-xr-x 7 238 6 19 17:51 include
+drwxr-xr-x 4 136 6 19 17:51 lib
+drwxr-xr-x 7 238 6 19 17:51 share
+<span class="gp">$ </span>ls –go <span class="k">${</span><span class="nv">INSTALL_DIR</span><span class="k">}</span>/lib
+-rw-r--r-- 1 145784 5 27 17:15 libPM.a         <span class="c">#「1プロセス版」PMlibライブラリ</span>
+-rw-r--r-- 1 472104 6 19 17:51 libPMmpi.a      <span class="c">#「MPI版」PMlibライブラリ</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>以上でPMlibインストール終了!</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#28">←</a><a href="#30">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="30">30. 例題プログラムの作成(Cpp版)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>適当なディレクトリ ${MY_SRC} の下にプログラム mxm.cpp を作成する</p>
+</li>
+<li>
+<p>N次の正方行列の積を計算するプログラム</p>
+<div class="ulist">
+<ul>
+<li>
+<p>主プログラム:関数1と関数2を呼び出して行列積の計算を行う。</p>
+</li>
+<li>
+<p>関数1:正方行列[A]、[B]の各要素を値1.0で初期化する</p>
+</li>
+<li>
+<p>関数2:行列積[C]=[A][B]を計算する</p>
+</li>
+<li>
+<p>シリアルプログラム(MPI不要、OpenMP不要)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span><span class="nv">MY_SRC</span><span class="o">=</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/pmlib/mysrc
+<span class="gp">$ </span>mkdir -p <span class="k">${</span><span class="nv">MY_SRC</span><span class="k">}</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="k">${</span><span class="nv">MY_SRC</span><span class="k">}</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>自分でソースを書いてももちろん良い vi mxm.cpp</p>
+</li>
+<li>
+<p>手早く進みたい場合はパッケージのプログラム例をコピーしても良い</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>$ vi mxm.cpp</code>
+あるいは
+<code>$ cp –p ${PMLIB_DIR}/doc/src_tutorial/mxm.cpp ./</code></p>
+</div>
+<div class="paragraph">
+<p><a href="#29">←</a><a href="#31">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="31">31. 行列積ソースプログラム例 Cpp</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include "matrix.h"
+</span><span class="kt">void</span> <span class="n">init2d</span><span class="p">();</span>
+<span class="kt">void</span> <span class="n">mxm2d</span><span class="p">();</span>
+<span class="cm">/* 主プログラム部分 */</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">init2d</span><span class="p">();</span>
+  <span class="n">mxm2d</span><span class="p">();</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">init2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span> <span class="o">=</span> <span class="n">MATSIZE</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">ipp</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">jpp</span><span class="p">){</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">nsize</span><span class="p">;</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">-</span><span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">c2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">mxm2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">c1</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">ipp</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">jpp</span><span class="p">){</span>
+      <span class="n">c1</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">kpp</span><span class="p">){</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">+</span>
+        <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
+      <span class="p">}</span>
+    <span class="n">matrix</span><span class="p">.</span><span class="n">c2d</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c1</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ヘッダーファイル matrix.h の内容</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#define MATSIZE 1000
+</span><span class="k">struct</span> <span class="n">matrix</span> <span class="p">{</span>
+  <span class="kt">double</span> <span class="n">a2d</span><span class="p">[</span><span class="n">MATSIZE</span><span class="p">][</span><span class="n">MATSIZE</span><span class="p">];</span>
+  <span class="kt">double</span> <span class="n">b2d</span><span class="p">[</span><span class="n">MATSIZE</span><span class="p">][</span><span class="n">MATSIZE</span><span class="p">];</span>
+  <span class="kt">double</span> <span class="n">c2d</span><span class="p">[</span><span class="n">MATSIZE</span><span class="p">][</span><span class="n">MATSIZE</span><span class="p">];</span>
+  <span class="kt">int</span> <span class="n">nsize</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">matrix</span><span class="p">;</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#30">←</a><a href="#32">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="32">32. 例題プログラムへのPMlibの追加</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">元の主プログラム部分</th>
+<th class="tableblock halign-left valign-top">PMlibを追加した主プログラム部分</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cm">/* ヘッダー */</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+
+<span class="cm">/* 初期設定 */</span>
+
+<span class="cm">/* 測定区間1 */</span>
+<span class="n">init2d</span><span class="p">();</span>
+
+
+<span class="cm">/* 測定区間2 */</span>
+<span class="n">mxm2d</span><span class="p">();</span>
+
+
+
+
+<span class="cm">/* レポートを出力 */</span>
+
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cm">/* ヘッダー追加 */</span>
+<span class="cp">#include &lt;PerfMonitor.h&gt;
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">pm_lib</span><span class="p">;</span>
+<span class="n">PerfMonitor</span> <span class="n">PM</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">initialize</span><span class="p">();</span>
+<span class="cm">/* 初期設定 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">setProperties</span><span class="p">(</span><span class="s">"A:init2d"</span><span class="p">,</span> <span class="n">PM</span><span class="p">.</span><span class="n">CALC</span><span class="p">);</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">setProperties</span><span class="p">(</span><span class="s">"B:mxm2d"</span><span class="p">,</span> <span class="n">PM</span><span class="p">.</span><span class="n">CALC</span><span class="p">);</span>
+<span class="cm">/* 測定区間1 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="s">"A:init2d"</span><span class="p">);</span>
+<span class="n">init2d</span><span class="p">();</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">stop</span><span class="p">(</span><span class="s">"A:init2d"</span><span class="p">);</span>
+<span class="cm">/* 測定区間2 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="s">"B:mxm2d"</span><span class="p">);</span>
+<span class="n">mxm2d</span><span class="p">();</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">stop</span> <span class="p">(</span><span class="s">"B:mxm2d"</span><span class="p">);</span>
+<span class="cm">/* レポートを出力 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">printDetail</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#31">←</a><a href="#33">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="33">33. コンパイル FX100・京コンピュータ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>例題プログラムをコンパイルしてPMlibをリンクするスクリプト例</p>
+<div class="ulist">
+<ul>
+<li>
+<p>x.compile-cpp-K-serial.sh</p>
+</li>
+<li>
+<p>コンパイルを開始する前にスクリプトの内容を確認する</p>
+</li>
+<li>
+<p>コンパイルが終了すると実行プログラム a.out が生成される</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span><span class="k">${</span><span class="nv">SCRIPTS</span><span class="k">}</span>/x.compile-cpp-K-serial.sh
+<span class="gp">$ </span>file ./a.out
+./a.out: ELF 64-bit MSB executable, SPARC V9, total store ordering, version 1 <span class="o">(</span>SYSV<span class="o">)</span>, dynamically linked <span class="o">(</span>uses shared libs<span class="o">)</span>, <span class="k">for </span>GNU/Linux 2.6.12, not stripped</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#32">←</a><a href="#34">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="34">34. 例題プログラムの実行 FX100・京コンピュータ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>対話的ジョブセッションの開始</p>
+<div class="ulist">
+<ul>
+<li>
+<p>京やFX100などはバッチジョブ管理されているので、#計算ノード#1台を利
+用する対話的ジョブセッションを起動する。</p>
+</li>
+<li>
+<p>FX100ではシステム毎にpjsub のオプションが異なる。適宜対応。</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span>pjsub --interact --rsc-list <span class="s2">"elapse=01:00:00"</span> --rsc-list <span class="s2">"node=1"</span> --mpi <span class="s2">"proc=8"</span>
+<span class="o">[</span>INFO] PJM 0000 pjsub Job 2955440 submitted.
+<span class="o">[</span>INFO] PJM 0081 ....connected.
+<span class="o">[</span>INFO] PJM 0082 pjsub Interactive job 2955440 started.</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>計算ノード上で対話的ジョブセッションが始まったら、最初に環境設定を行う</p>
+<div class="ulist">
+<ul>
+<li>
+<p>FX100ではシステム毎に環境設定方法が異なることがある。適宜対応。</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span><span class="nb">source</span> /work/system/Env_base  <span class="c"># 京の場合</span>
+<span class="gp">$ </span>/opt/FJSVXosPA/bin/xospastop  <span class="c"># 京の場合</span>
+<span class="gp">$ </span><span class="nv">MY_SRC</span><span class="o">=</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/pmlib/mysrc
+<span class="gp">$ </span><span class="nb">cd</span> <span class="k">${</span><span class="nv">MY_SRC</span><span class="k">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#33">←</a><a href="#35">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="35">35. 例題プログラムの実行 FX100・京コンピュータ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>計算ノード上でプログラムを実行する。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>デフォルトではユーザー申告モードで測定される</p>
+</li>
+<li>
+<p>標準出力に基本レポート・詳細レポートが出力される事を確認</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>./a.out</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>環境変数HWPC_CHOOSERにFLOPSを指定して再度実行する</p>
+<div class="ulist">
+<ul>
+<li>
+<p>HWPCによる自動測定モード(計算量の自動測定)</p>
+</li>
+<li>
+<p>基本レポート・詳細レポートを確認</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span><span class="nb">export </span><span class="nv">HWPC_CHOOSER</span><span class="o">=</span>FLOPS
+<span class="gp">$ </span>./a.out</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#34">←</a><a href="#36">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="36">36. 例題プログラムへのOpenMP指示行の追加</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>ソースプログラムにOpenMP指示行を追加</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">init2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span> <span class="o">=</span> <span class="n">MATSIZE</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="cp">#pragma omp parallel for private(i,j)
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">ipp</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">jpp</span><span class="p">){</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">nsize</span><span class="p">;</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">-</span><span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">c2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">mxm2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">c1</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="cp">#pragma omp parallel for private(i,j,k,c1)
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">ipp</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">jpp</span><span class="p">){</span>
+      <span class="n">c1</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">kpp</span><span class="p">){</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">+</span>
+        <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
+      <span class="p">}</span>
+      <span class="p">...</span><span class="err">以下略</span><span class="p">...</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#35">←</a><a href="#37">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="37">37. 例題プログラムの再実行 FX100・京コンピュータ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>ログインノード上で再度コンパイル</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>$ ${SCRIPTS}/x.compile-app-K-serial.sh</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>#計算ノード上で#対話的ジョブセッションを継続・再開</p>
+<div class="ulist">
+<ul>
+<li>
+<p>もし先に開始したジョブセッションが終了していればジョブの再投入と環
+境設定を再実施</p>
+</li>
+<li>
+<p>測定条件(環境変数)を追加・変更して出力結果を比較する</p>
+<div class="ulist">
+<ul>
+<li>
+<p>OMP_NUM_THREADS=1/2/4/8など:OpenMPスレッド数</p>
+</li>
+<li>
+<p>HWPC_CHOOSER=FLOPS/BANDWIDTH/など:HWPC測定のタイプ</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span><span class="nb">export </span><span class="nv">HWPC_CHOOSER</span><span class="o">=</span>FLOPS
+<span class="gp">$ </span><span class="nb">export </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span>4
+<span class="gp">$ </span>./a.out</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#36">←</a><a href="#38">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="38">38. Apple Mac</h2>
+<div class="sectionbody">
+<div class="paragraph text-center">
+<p>10分+でできるPMlibのインストールと利用😚</p>
+</div>
+<div class="paragraph text-center">
+<p>Apple Mac編</p>
+</div>
+<div class="paragraph text-center">
+<p>(OSX10.11以降)</p>
+</div>
+<div class="paragraph">
+<p><a href="#37">←</a><a href="#39">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="39">39. PMlibのインストールと利用実行</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>PMlibのインストール</p>
+<div class="ulist">
+<ul>
+<li>
+<p>PMlibパッケージの入手</p>
+</li>
+<li>
+<p>PMlibのインストール</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>PMlibの利用実行</p>
+<div class="ulist">
+<ul>
+<li>
+<p>例題プログラムの作成(Cpp言語で作成)</p>
+</li>
+<li>
+<p>例題プログラムへのPMlibの追加(ソースプログラムの編集)</p>
+</li>
+<li>
+<p>例題プログラムをコンパイルしてPMlibをリンクする</p>
+</li>
+<li>
+<p>例題プログラムを実行して、PMlibのレポートを確認する</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>(注)Apple Mac環境ではCコンパイラ(Clang)は標準で備わっているがFortranコンパイラ、MPIライブラリは通常利用者がインストールする。この説明資料ではCコンパイラは標準のclang、FortranコンパイラはGNUFortran(gfortran:GNU Cに付属)、MPIはOpenMPIがインストールされていることを前提として書かれている。</p>
+</li>
+<li>
+<p>(注)Apple Mac環境ではHWPC/PAPIライブラリはサポートされていない。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#38">←</a><a href="#40">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="40">40. PMlibパッケージの入手(共通)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>パッケージ公開リポジトリ</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://avr-aics-riken.github.io/PMlib/" class="bare">http://avr-aics-riken.github.io/PMlib/</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="download.png" alt="ソフトウェアをダウンロードするためのGitHubページを示す画像">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ダウンロードしたファイル名は avr-aics-riken-PMlib-*.tar.gz</p>
+<div class="ulist">
+<ul>
+<li>
+<p>(\*の部分はバージョンにより変わる)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ダウンロードしたファイルをインストール先のコンピュータに転送する。手持ちのPCへインストールする場合は、もちろん転送不要。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>以降の例では ${HOME}/tmp/ 下に転送したと仮定</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#39">←</a><a href="#41">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="41">41. PMlibパッケージの展開(共通)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>インストール先のコンピュータ上で、転送したパッケージを展開する</p>
+</li>
+<li>
+<p>展開したディレクトリにシンボリックリンクと、パスの環境変数を設定する。</p>
+</li>
+<li>
+<p>以下の例ではログイン後ホームに pmlib ディレクトリを作って、その下に 転送したパッケージのファイルを展開する。</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span>mkdir pmlib
+<span class="gp">$ </span><span class="nb">cd </span>pmlib
+<span class="gp">$ </span>tar –zxf <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/tmp/avr-aics-riken-PMlib-<span class="k">*</span>.tar.gz
+<span class="gp">$ </span>ls –go
+drwxr-xr-x 10 4096 2016-06-21 15:13 avr-aics-riken-PMlib-7d4884d
+<span class="gp">$ </span>ln –s avr-aics-riken-PMlib-<span class="k">*</span> PMlib
+<span class="gp">$ </span>ls –go
+lrwxrwxrwx 1 12 2016-06-21 15:15 PMlib -&gt; avr-aics-riken-PMlib-7d4884d
+<span class="gp">$ </span><span class="nv">PMLIB_DIR</span><span class="o">=</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span>/PMlib          <span class="c"># PMlibパッケージを展開したディレクトリ</span>
+<span class="gp">$ </span><span class="nv">INSTALL_DIR</span><span class="o">=</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span>/install_dir  <span class="c"># PMlibのインストール先ディレクトリ</span>
+<span class="gp">$ </span><span class="nb">export </span>PMLIB_DIR INSTALL_DIR</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#40">←</a><a href="#42">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="42">42. PMlibのインストール Apple Mac環境</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Apple Mac環境用のインストールスクリプト例は以下に提供されている</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>$ SCRIPTS=${PMLIB_DIR}/doc/scripts/Mac/</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>アプリケーションの種類により、PMlib「1プロセス版」か「MPI版」かのどちらかを使用するので、両方ともインストールする。</p>
+</li>
+<li>
+<p>「1プロセス版」のスクリプト ${SCRIPTS}/x.make-mac-clang-serial.sh</p>
+</li>
+<li>
+<p>「MPI版」のスクリプト ${SCRIPTS}/x.make-mac-clang-openmpi.sh</p>
+</li>
+<li>
+<p>「MPI版」のスクリプトではOpenMPIがインストールされたパスが正しく設定されているか確認して、必要であれば修正する。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>export OPENMPI_DIR=/usr/local/openmpi/openmpi-1.10.2-clang</code></p>
+</div>
+<div class="paragraph">
+<p><a href="#41">←</a><a href="#43">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="43">43. PMlibのインストール Apple Mac環境</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>インストールスクリプトを2つ順に実行</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ ${SCRIPTS}/x.make-mac-clang-serial.sh # 「1プロセス版」PMlib
+$ ${SCRIPTS}/x.make-mac-clang-openmpi.sh # 「MPI版」PMlib</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>以下のファイルがインストールされた事を確認する</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span>ls –go <span class="k">${</span><span class="nv">INSTALL_DIR</span><span class="k">}</span>
+drwxr-xr-x 3 102 6 19 17:51 bin
+drwxr-xr-x 6 204 6 19 17:51 doc
+drwxr-xr-x 7 238 6 19 17:51 include
+drwxr-xr-x 4 136 6 19 17:51 lib
+drwxr-xr-x 7 238 6 19 17:51 share
+<span class="gp">$ </span>ls –go <span class="k">${</span><span class="nv">INSTALL_DIR</span><span class="k">}</span>/lib
+-rw-r--r-- 1 145784 5 27 17:15 libPM.a     <span class="c"># 「1プロセス版」PMlibライブラリ</span>
+-rw-r--r-- 1 472104 6 19 17:51 libPMmpi.a  <span class="c"># 「MPI版」PMlibライブラリ</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>以上でPMlibインストール終了!</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#42">←</a><a href="#44">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="44">44. 例題プログラムの作成(Cpp版)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>適当なディレクトリ ${MY_SRC} の下にプログラム mxm.cpp を作成する</p>
+</li>
+<li>
+<p>N次の正方行列の積を計算するプログラム</p>
+<div class="ulist">
+<ul>
+<li>
+<p>主プログラム:関数1と関数2を呼び出して行列積の計算を行う。</p>
+</li>
+<li>
+<p>関数1:正方行列[A]、[B]の各要素を値1.0で初期化する</p>
+</li>
+<li>
+<p>関数2:行列積[C]=[A][B]を計算する</p>
+</li>
+<li>
+<p>シリアルプログラム(MPI不要、OpenMP不要)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span><span class="nv">MY_SRC</span><span class="o">=</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/pmlib/mysrc
+<span class="gp">$ </span>mkdir -p <span class="k">${</span><span class="nv">MY_SRC</span><span class="k">}</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="k">${</span><span class="nv">MY_SRC</span><span class="k">}</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>自分でソースを書いてももちろん良い vi mxm.cpp</p>
+</li>
+<li>
+<p>手早く進みたい場合はパッケージのプログラム例をコピーしても良い</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>$ vi mxm.cpp</code>
+あるいは
+<code>$ cp –p ${PMLIB_DIR}/doc/src_tutorial/mxm.cpp ./</code></p>
+</div>
+<div class="paragraph">
+<p><a href="#43">←</a><a href="#45">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="45">45. 行列積ソースプログラム例 Cpp</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include "matrix.h"
+</span><span class="kt">void</span> <span class="n">init2d</span><span class="p">();</span>
+<span class="kt">void</span> <span class="n">mxm2d</span><span class="p">();</span>
+<span class="cm">/* 主プログラム部分 */</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">init2d</span><span class="p">();</span>
+  <span class="n">mxm2d</span><span class="p">();</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">init2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span> <span class="o">=</span> <span class="n">MATSIZE</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">ipp</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">jpp</span><span class="p">){</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">nsize</span><span class="p">;</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">-</span><span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">c2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">mxm2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">c1</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="n">c1</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">){</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">+</span>
+        <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
+      <span class="p">}</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">c2d</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c1</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ヘッダーファイル matrix.h の内容</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#define MATSIZE 1000
+</span><span class="k">struct</span> <span class="n">matrix</span> <span class="p">{</span>
+  <span class="kt">double</span> <span class="n">a2d</span><span class="p">[</span><span class="n">MATSIZE</span><span class="p">][</span><span class="n">MATSIZE</span><span class="p">];</span>
+  <span class="kt">double</span> <span class="n">b2d</span><span class="p">[</span><span class="n">MATSIZE</span><span class="p">][</span><span class="n">MATSIZE</span><span class="p">];</span>
+  <span class="kt">double</span> <span class="n">c2d</span><span class="p">[</span><span class="n">MATSIZE</span><span class="p">][</span><span class="n">MATSIZE</span><span class="p">];</span>
+  <span class="kt">int</span> <span class="n">nsize</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">matrix</span><span class="p">;</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#44">←</a><a href="#46">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="46">46. 例題プログラムへのPMlibの追加</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">元の主プログラム部分</th>
+<th class="tableblock halign-left valign-top">PMlibを追加した主プログラム部分</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cm">/* ヘッダー */</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="cm">/* 初期設定 */</span>
+
+
+<span class="cm">/* 測定区間1 */</span>
+<span class="n">init2d</span><span class="p">();</span>
+
+
+<span class="cm">/* 測定区間2 */</span>
+<span class="n">mxm2d</span><span class="p">();</span>
+
+
+<span class="cm">/* レポートを出力 */</span>
+
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cm">/* ヘッダー追加 */</span>
+<span class="cp">#include &lt;PerfMonitor.h&gt;
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">pm_lib</span><span class="p">;</span>
+<span class="n">PerfMonitor</span> <span class="n">PM</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">();</span>
+<span class="p">{</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">initialize</span><span class="p">;</span>
+<span class="cm">/* 初期設定 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">setProperties</span><span class="p">(</span><span class="s">"A:init2d"</span><span class="p">,</span> <span class="n">PM</span><span class="p">.</span><span class="n">CALC</span><span class="p">);</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">setProperties</span><span class="p">(</span><span class="s">"B:mxm2d"</span><span class="p">,</span> <span class="n">PM</span><span class="p">.</span><span class="n">CALC</span><span class="p">);</span>
+<span class="cm">/* 測定区間1 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="s">"A:init2d"</span><span class="p">);</span>
+<span class="n">init2d</span><span class="p">();</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">stop</span><span class="p">(</span><span class="s">"A:init2d"</span><span class="p">);</span>
+<span class="cm">/* 測定区間2 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="s">"B:mxm2d"</span><span class="p">);</span>
+<span class="n">mxm2d</span><span class="p">();</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">stop</span><span class="p">(</span><span class="s">"B:mxm2d"</span><span class="p">);</span>
+<span class="cm">/* レポートを出力 */</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s">""</span><span class="p">,</span><span class="s">""</span><span class="p">);</span>
+<span class="n">PM</span><span class="p">.</span><span class="n">printDetail</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#45">←</a><a href="#47">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="47">47. コンパイル clangコンパイラ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>例題プログラムをコンパイルしてPMlibをリンクするスクリプト例</p>
+<div class="ulist">
+<ul>
+<li>
+<p>x.compile-cpp-mac-serial.sh</p>
+</li>
+<li>
+<p>コンパイルを開始する前にスクリプトの内容を確認する</p>
+</li>
+<li>
+<p>コンパイルが終了すると実行プログラム a.out が生成される</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span><span class="k">${</span><span class="nv">SCRIPTS</span><span class="k">}</span>/x.compile-cpp-mac-serial.sh
+
+<span class="gp">$ </span>file ./a.out
+./a.out: Mach-O 64-bit executable x86_64</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#46">←</a><a href="#48">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="48">48. 例題プログラムの実行 clangコンパイラ</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>例:ジョブスクリプトによる実行例。</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span>cp <span class="k">${</span><span class="nv">SCRIPTS</span><span class="k">}</span>/x.run-mac-serial.sh ./
+<span class="gp">$ </span>vi x.run-mac-serial.sh
+<span class="gp">$ </span>./x.run-mac-serial.sh</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>実行結果の標準出力でPMlibの基本レポート・詳細レポートを確認</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#47">←</a><a href="#49">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="49">49. 例題プログラムへのOpenMP指示行の追加</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>ソースプログラムにOpenMP指示行を追加</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">init2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span> <span class="o">=</span> <span class="n">MATSIZE</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="cp">#pragma omp parallel for private(i,j)
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">ipp</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">jpp</span><span class="p">){</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">nsize</span><span class="p">;</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">-</span><span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+      <span class="n">matrix</span><span class="p">.</span><span class="n">c2d</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">mxm2d</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">nsize</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">c1</span><span class="p">;</span>
+  <span class="n">nsize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">nsize</span><span class="p">;</span>
+  <span class="cp">#pragma omp parallel for private(i,j,k,c1)
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">ipp</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">jpp</span><span class="p">){</span>
+      <span class="n">c1</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">nsize</span><span class="p">;</span> <span class="n">kpp</span><span class="p">){</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">+</span>
+        <span class="n">matrix</span><span class="p">.</span><span class="n">a2d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">matrix</span><span class="p">.</span><span class="n">b2d</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
+      <span class="p">}</span>
+      <span class="p">...</span><span class="err">以下略</span><span class="p">...</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#48">←</a><a href="#50">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="50">50. 例題プログラムのコンパイルと実行 Apple Mac環境</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>再コンパイル
+<code>$ ${SCRIPTS}/x.compile-cpp-mac-serial.sh</code></p>
+</li>
+<li>
+<p>環境変数を追加・変更して再実行</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ジョブスクリプトで測定条件を変更して出力結果を比較する</p>
+</li>
+<li>
+<p>OMP_NUM_THREADS=1/2/4/8など:OpenMPスレッド数</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="gp">$ </span>vi x.run-mac-serial.sh
+<span class="gp">$ </span>./x.run-mac-serial.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#49">←</a><a href="#51">→</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="51">51. 以上です。</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>PMlibの基本的な機能と利用方法についてご紹介しました。</p>
+</li>
+<li>
+<p>さらに詳細な機能やその利用方法について知りたい方は、PMlibパッケージの以下の資料をご覧ください。</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">doc/PMlib.pdf</p>
+<p class="tableblock">doc/tutorial/Tutorial-slide1-overview.pdf</p>
+<p class="tableblock">doc/tutorial/Tutorial-slide2-installation.pdf</p>
+<p class="tableblock">doc/tutorial/PMlib-Getting-Started.pdf</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PMlib利用説明書</p>
+<p class="tableblock">講習会用資料1</p>
+<p class="tableblock">講習会用資料2</p>
+<p class="tableblock">簡易版利用ガイド(本資料)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#50">←</a><a href="#1">↑</a></p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
